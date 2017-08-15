@@ -1,0 +1,158 @@
+Ruby
+
+Documentation:
+
+http://docs.ruby-lang.org
+http://ruby-doc.org
+http://www.rubydoc.info
+
+*instance methods are refered with # to differ from class methods. e.g.: Array#length
+** [] in methods params indicates optional args : #index(substring[, offset])
+** blocks indicated with {||...} : #each {|item|...}
+
+> "Core Ruby" classes and modules are loaded into memory everytime a program runs. 
+Specialized ones must be explicitly loaded via 'require' method. 
+Note: not everything in the 'Ruby standard library' is loaded.
+
+Documenting: 
+Use 'rdoc' for documenting your code: 
+	# rdoc <file.rb>
+  *it'll generate a HTML file documenting the code
+ * to insert description for class, methods, modules, etc, place a comment right before the class, method, etc...
+------------------------
+Install Ruby and IRB (interpreter):
+$ sudo yum install ruby -t '2.4.1'
+$ sudo yum install irb rdoc
+
+Install Rails (web framework):
+$ sudo gem install rails --include-dependencies 
+
+enter the interpreter
+$ irb 
+
+# Install
+
+$ sudo apt-get install ruby
+$ sudo apt-get install irb rdoc
+
+# irb
+  loading file:
+> irb -I
+>require "./my_file"
+
+# What is Ruby?
+
+Ruby is a dynamic, object-oriented, interpreted scripting programming language. Created by Yukihiro Matsumoto (Matz) in 1995.
+
+# Notes
+
+• In Ruby everything is an object
+• some method like "puts" and "print", don't need a receiver (obj) to be called. It's being include in Ruby's top-level execution environment. Also the custom methods(programmer methods) will be included in top-level ... (in top-level execution environment you dont need . specifying a receiver)
+• parentheses are optional in methos calls
+• interpolatio " #{...} " will be taken literally when used with single-quote ' #{...} '. It also allows operation within it : "...#{10 - num}..."
+• semicolons can be used to end and separe statements, but Ruby treats separated lines as separated statements, making semicolon unnecessarily
+• [obj].inspect or p [param] are used to print string aspects for debuging
+• [obj].methods shows the methods available for that object 
+• [obj].class tells the type of the object
+• 'unless' conditional is the opposite of 'if'. It will run only if condition is false or unless it is true 
+• 'until' loop is the opposite of 'while'. It runs while condition is false or until it is true
+• \n \t \" \' \\ ... are called "escape sequence
+• naming methods ending with ?, ! or =
+	∘ ?  : by convention, used to indicate a boolean return
+	∘ !  : by convention, used to name methods that perform some permanent or potentially dangerous change
+	∘ = : by definition, used to define method as attribute writers
+• method: define default value to a parameter applying a value in the declaration as : def my_method (type, size = "medium", qtd = 1) ... *this way those params become optional (they most be ending arguments)
+• method: return keyword can be implicit (can be omitted) : def calc(x, y) x*y end *will return the product of x*y, even though it is not return x*y
+• classes in Ruby must beging with capital following CamelCase standard, while variables follow snake_case.
+• local variables = within a scope | instance variables = obj attributes, lives as long as the obj does
+• instance variables must contain 'at' in front of the name : @my_instance_var
+• for encapsulation purpose, Ruby doesnt allow direct access to instance variables. For access, use 'accessor methods' (attribute writer and attribute reader (similar to set/get)). 
+• Declare a att. write by def my_att=(value) ...
+• Simplifying accessor methods: just create them by:
+	∘ attr_writer :my_var #same as def my_var=(value) @my_var = value end
+	∘ attr_reader :my_var #same as def my_var @my_var end
+	∘ attr_accessor :my_var #defines both att. writer and att. reader *add more vars by "," #attr_accessor :name, :age
+• Inheritance: class MySubclass < MySuperclass ... end 
+	∘ instance variables belong to the obj, not the class. When a class inherit from a superclass, only the instance methods are inherited. If you try " puts obj.instance_variables ", nothing will show up. The obj won't get any instance varaibles until we call some instance methods on it, at which point the method will create the varaibles on the obj.
+
+• variables, arrays, hashes, etc never store a object. they hold references to the "heap memory"
+• Module is a group of methods:
+	module MyModule	...methods... end *looks like a 'class' but you cant create instances out of it
+	∘ you can "mix in" a module into a class; modules designed to be mixed into a class are called mixins:
+	class MyClass
+		include MyModule ...
+	∘ for convention, you should name a module using adjectives to represent the behaviour the group of methods (the module) have
+	e.g.: module AcceptsComments ... module Playable ...module Secured...
+	∘ the Ruby looks for an method in your class, then in the medules mixed in, finaly in the superclass ***check it with ".ancestors" class method
+	   *for this reason, avoid using initialize in modules, bc if you use one in your class, it will be overridden and you attributes in the module will be nil.
+		
+everything is obj, hence everytihng has mehtods:
+	e.g.: 4 > 3 ...is actualy 4.>(3) ...> is the name of the method and 3 is being passed
+
+• Constants are defined by declaring a variable with a capital letter: Myconstant
+  *by convention, constants should be named with ALL_CAPS.
+
+CUSTOM EACH method:
+#the method each is available for string and other objects
+#to use each in a object from a custom class you will need to create a custom method
+class WordSplitter
+	attr_accessor :string #will hold the string obj which will call the each from Enumerable 
+	def each
+		string.split(" ").each do |word|
+		yeild word
+	end
+end
+#calling: 
+splitter = WordSplitter.new
+splitter.string = "one two three"
+
+splitter.each do |word| 
+ puts word
+end
+-------------- // --------------
+
+#class methods vs instance methods: C.M works like an "static method" in Java. You can call a C.M. without creating an instance, while I.M. requires an instance (obj = MyClass.new)
+
+#blocks: are just chunck of code you can pass as parameter to a method: 
+
+def my_method(&my_block)    do sth...    my_block.call #execute your block    do sth..  end 
+ '&' define the obj as an block 
+
+actual block:
+my_method do 
+   do sth...
+end 
+*a block cant be executed by itself
+
+-----------
+#hashes: hash is a collection (kind like an array) in which each value is accessed via a key
+ {"KEY" => "VALUE", "KEY" => "VALUE", etc}	e.g: {"name" => "ismael", "name" => "thiago"}
+ *use square brackets to access them:
+	puts myHash[name] 
+*arrays use interger for index, whereas hashes could use numbers, string and symbols:
+	{1 => "one", "two" => "two", :three => "three"}
+	*but, keys are not cauculated as indexes 
+
+Rule of thumb for Hash defaults:
+*if your default is a numeric, you can use a hash default object.
+*if your default is anything else, you should use a hash default block.  
+---------------
+Debuging:
+Raise: throws an error message
+ *use 'raise' instead of 'return'
+ *return may prompt a message informing the error, but the code keep running. Raise will literally throw an error that stops the executing.
+  *the avoid stoping the execution you can use 'rescue' to apply a solution, so the execution keep going on 
+ *you can create a custom exception class, but it must be a subclass of Ruby's Exception Class
+
+
+Minitest - is a unit-test framework that tests components/features to check if they behave as expected
+# gem install minitest
+
+*for convention create a folder '/lib' for your code and a folder '/test' for you test file
+ *when runing a test use 'ruby -I lib <dir_of_the_test>' (-I lib flag) to load required libs within the test.rb code   
+  *ensure a method that tests your code is named "test_*"
+ *red, green, refactor: (red) write the test for the feature you want and ensure it falis. (green) write the feature and ensure it works. (refactor) improve you code once you know the expected result and how it fails.
+ *to avoid repetition of code when creating instances to test, you can define the instance method 'setup' which will works like an 'initializer'
+ *another useful instance method is 'teardown' which runs after the test working as a clean up
+> The most important aspect of minitest is not finding bug and errors, but allowing you to change your code knowing when sth breaks it.
+

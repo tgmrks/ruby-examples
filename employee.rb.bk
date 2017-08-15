@@ -1,0 +1,57 @@
+class Employee
+
+  attr_reader :name, :salary
+
+  def name=(name)
+    if name == ""
+      raise "name cant be blank!"
+    end
+    @name = name
+  end
+
+  def salary=(salary)
+    if salary < 0
+      raise "salary cant be negative!"
+    end
+    @salary = salary
+  end
+
+#good - initialize attibutes when .new is called 
+#  def initialize
+#    @name = "Unknown"
+#    @salary = 0.0
+#  end
+#better - allows arguments to be sent through .new
+#  def initialize(name = "Unknown", salary = 0.0)
+#    @name = name
+#    @salary = salary
+#  end
+#best - access the instance methods name= and salary=
+  def initialize(name = "Unknown", salary = 0.0)
+    self.name = name
+    self.salary = salary
+  end
+#***Apart from accessor methods, 'self' can be omitted
+
+  def print_pay_stub
+    puts "Name: #{@name}"
+    pay_for_period = (salary / 365) * 14 #2 weeks is the pay period
+    formated_pay = format("%.2f", pay_for_period)
+#    puts "Sal.: #{@salary}"
+    puts "Pay this period: $#{formated_pay}"
+  end
+
+end
+
+amy = Employee.new
+amy.name = "Amy Blake"
+amy.salary = 50000.0
+amy.print_pay_stub
+
+kara = Employee.new("Kara", 100000.0)
+#kara.name = ""
+kara.print_pay_stub
+
+ben = Employee.new("Ben", 40000.0)
+#ben.salary = -257
+ben.print_pay_stub

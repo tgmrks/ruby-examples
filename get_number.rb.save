@@ -1,0 +1,13 @@
+# Get My Number Game
+# Written by: Smile
+
+puts "Welcome to 'Get My Number!'"
+print "what's your name?"
+input = gets
+puts "Welcome, #{input}"
+
+
+
+
+
+
