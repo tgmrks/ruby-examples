@@ -155,4 +155,23 @@ Minitest - is a unit-test framework that tests components/features to check if t
  *to avoid repetition of code when creating instances to test, you can define the instance method 'setup' which will works like an 'initializer'
  *another useful instance method is 'teardown' which runs after the test working as a clean up
 > The most important aspect of minitest is not finding bug and errors, but allowing you to change your code knowing when sth breaks it.
+-------------------------------------
+# Sinatra : ruby web workframe 
+# gem install sinatra
+*ERB - Embedded RuBy : allows embedded ruby code within HTML files
+   *rbs takes symbols as arguments (:index)
+   *by default, it looks for files .erb in the 'views' subdirectory
+   **ERB Embedding Tags:
+
+<% %>
+Executes the ruby code within the brackets.
+
+<%= %>
+Prints something into erb file.
+
+<% -%>
+Avoids line break after expression.
+
+<%# %>
+Comments out code within brackets; not sent to client (as opposed to HTML comments).
 
