@@ -1,5 +1,11 @@
 ---
 1: !ruby/object:Movie
-  title: Isma o grand
-  director: Ismael
+  title: 'yes'
+  director: ismae
   year: '2017'
+  id: 1
+2: !ruby/object:Movie
+  title: oto muve
+  director: isma
+  year: '2017'
+  id: 2
