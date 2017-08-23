@@ -1,0 +1,5 @@
+---
+1: !ruby/object:Movie
+  title: Isma o grand
+  director: Ismael
+  year: '2017'

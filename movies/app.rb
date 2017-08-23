@@ -1,5 +1,10 @@
 require 'sinatra'
 require 'movie'
+require 'yaml'
+require 'yaml/store'
+require 'movie_store'
+
+store = MovieStore.new('movie.yml')
 
 get ('/movies') do
     @movies = []
@@ -14,4 +19,15 @@ end
 
 get ('/movies/new') do
     erb :new
+end
+
+post ('/movies/create') do
+    #"Received: #{params.inspect}"
+    @movie = Movie.new
+    @movie.title = params['title']
+    @movie.director = params['director']
+    @movie.year = params['year']
+    #puts YAML.dump(@movie)
+    store.save(@movie)
+    redirect '/movies/new' #show a new, empty form
 end
